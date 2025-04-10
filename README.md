@@ -32,6 +32,7 @@ See [AGENT-CONTROL.md](AGENT-CONTROL.md) for detailed setup instructions.
 
 ## Documentation
 
+- [IMPLEMENTATION-SUMMARY.md](IMPLEMENTATION-SUMMARY.md): Comprehensive summary of all implemented components
 - [ARCHITECTURE-DEPLOY-USE.md](ARCHITECTURE-DEPLOY-USE.md): Detailed architecture, deployment, and usage documentation
 - [PLATFORM-ADAPTERS.md](PLATFORM-ADAPTERS.md): Comprehensive guide to platform adapters and optimization techniques
 - [RESOURCE-OPTIMIZATION.md](RESOURCE-OPTIMIZATION.md): Details on performance prediction and academic resource access
