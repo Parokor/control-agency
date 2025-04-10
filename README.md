@@ -9,7 +9,7 @@ The Federated AI System provides a powerful, free-tier optimized architecture fo
 ## Key Features
 
 - **Resource Scheduler**: Intelligently assigns workloads to appropriate platforms based on availability and requirements
-- **Platform Adapters**: Specialized interfaces for Google Colab, Kaggle, GitPod, HuggingFace, and Intel DevCloud
+- **Platform Adapters**: Specialized interfaces for Google Colab, Kaggle, GitPod, HuggingFace, Intel DevCloud, Paperspace Gradient, and GitHub Codespaces
 - **Specialized Containers**: Chat Container (Dolphin 3.0 R1), Development Container (GitHub), and Media Container (ComfyUI)
 - **Advanced GPU Optimization**: Techniques to maximize performance on free GPU resources
 - **Anti-Timeout Mechanisms**: Prevents disconnections on free cloud platforms
@@ -33,6 +33,8 @@ See [AGENT-CONTROL.md](AGENT-CONTROL.md) for detailed setup instructions.
 ## Documentation
 
 - [ARCHITECTURE-DEPLOY-USE.md](ARCHITECTURE-DEPLOY-USE.md): Detailed architecture, deployment, and usage documentation
+- [PLATFORM-ADAPTERS.md](PLATFORM-ADAPTERS.md): Comprehensive guide to platform adapters and optimization techniques
+- [RESOURCE-OPTIMIZATION.md](RESOURCE-OPTIMIZATION.md): Details on performance prediction and academic resource access
 - [AGENT-CONTROL.md](AGENT-CONTROL.md): Step-by-step setup guide
 - [RULES.md](RULES.md): System rules and guidelines
 - [TASK.md](TASK.md): Task tracking and management
