@@ -1,0 +1,5 @@
+fastapi==0.104.1
+uvicorn==0.23.2
+httpx==0.25.1
+websockets==11.0.3
+python-dotenv==1.0.0
