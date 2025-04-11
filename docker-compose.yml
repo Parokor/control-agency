@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  chat-container:
+    build: ./containers/chat_container
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    restart: unless-stopped
+
+  dev-container:
+    build: ./containers/dev_container
+    ports:
+      - "8001:8000"
+    env_file:
+      - .env
+    volumes:
+      - dev-container-data:/app/repositories
+    restart: unless-stopped
+
+  media-container:
+    build: ./containers/media_container
+    ports:
+      - "8188:8188"
+    volumes:
+      - media-container-data:/app/output
+    restart: unless-stopped
+
+volumes:
+  dev-container-data:
+  media-container-data:
