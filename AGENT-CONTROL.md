@@ -6,17 +6,56 @@ This guide provides step-by-step instructions for setting up the Federated AI Sy
 
 ## Setup Roadmap
 
-```mermaid
-graph TD
-    A[1. Prerequisites Installation] --> B[2. Account Creation]
-    B --> C[3. API Key Generation]
-    C --> D[4. Local Environment Setup]
-    D --> E[5. Platform Adapters Configuration]
-    E --> F[6. Resource Scheduler Setup]
-    F --> G[7. Specialized Containers Deployment]
-    G --> H[8. System Integration]
-    H --> I[9. Testing and Verification]
-    I --> J[10. Production Deployment]
+```
++-------------------------------+
+| 1. Prerequisites Installation |
++-------------------------------+
+              |
+              v
++-------------------------------+
+|    2. Account Creation        |
++-------------------------------+
+              |
+              v
++-------------------------------+
+|    3. API Key Generation      |
++-------------------------------+
+              |
+              v
++-------------------------------+
+|  4. Local Environment Setup   |
++-------------------------------+
+              |
+              v
++-------------------------------+
+| 5. Platform Adapters Config   |
++-------------------------------+
+              |
+              v
++-------------------------------+
+|  6. Resource Scheduler Setup  |
++-------------------------------+
+              |
+              v
++-------------------------------+
+| 7. Specialized Containers     |
+|        Deployment             |
++-------------------------------+
+              |
+              v
++-------------------------------+
+|    8. System Integration      |
++-------------------------------+
+              |
+              v
++-------------------------------+
+|  9. Testing and Verification  |
++-------------------------------+
+              |
+              v
++-------------------------------+
+|  10. Production Deployment    |
++-------------------------------+
 ```
 
 ## 1. Prerequisites Installation
@@ -547,7 +586,7 @@ To create adapters for additional platforms:
    ```python
    from adapters.your_adapter import YourAdapter
    from core.resource_scheduler import ResourceScheduler
-   
+
    scheduler = ResourceScheduler()
    scheduler.register_adapter("your_platform", YourAdapter)
    ```
