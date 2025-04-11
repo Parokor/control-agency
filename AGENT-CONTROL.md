@@ -93,8 +93,8 @@ brew install node@18
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/federated-ai-system.git
-cd federated-ai-system
+git clone https://github.com/Parokor/control-agency.git
+cd control-agency
 
 # Create and activate virtual environment
 python -m venv venv
@@ -343,8 +343,8 @@ python scripts/test_scheduler.py
 ```bash
 # Build and deploy Chat Container
 cd containers/chat_container
-docker build -t federated-ai/chat-container .
-docker run -d -p 8000:8000 --env-file ../../.env federated-ai/chat-container
+docker build -t control-agency/chat-container .
+docker run -d -p 8000:8000 --env-file ../../.env control-agency/chat-container
 
 # Verify deployment
 curl http://localhost:8000/health
@@ -355,8 +355,8 @@ curl http://localhost:8000/health
 ```bash
 # Build and deploy Development Container
 cd containers/dev_container
-docker build -t federated-ai/dev-container .
-docker run -d -p 8001:8000 --env-file ../../.env federated-ai/dev-container
+docker build -t control-agency/dev-container .
+docker run -d -p 8001:8000 --env-file ../../.env control-agency/dev-container
 
 # Verify deployment
 curl http://localhost:8001/health
@@ -367,8 +367,8 @@ curl http://localhost:8001/health
 ```bash
 # Build and deploy Media Container
 cd containers/media_container
-docker build -t federated-ai/media-container .
-docker run -d -p 8188:8188 --gpus all federated-ai/media-container
+docker build -t control-agency/media-container .
+docker run -d -p 8188:8188 --gpus all control-agency/media-container
 
 # Verify deployment
 curl http://localhost:8188/
@@ -478,7 +478,7 @@ For maximum performance on Google Colab:
 2. Run the GPU optimization script:
    ```python
    # In your Colab notebook
-   !wget -q https://raw.githubusercontent.com/yourusername/federated-ai-system/main/scripts/colab_optimize.py
+   !wget -q https://raw.githubusercontent.com/Parokor/control-agency/main/scripts/colab_optimize.py
    %run colab_optimize.py
    ```
 3. Connect to Google Drive for persistent storage:
@@ -489,7 +489,7 @@ For maximum performance on Google Colab:
 4. Use the anti-timeout script:
    ```python
    # In your Colab notebook
-   !wget -q https://raw.githubusercontent.com/yourusername/federated-ai-system/main/scripts/colab_keeper.py
+   !wget -q https://raw.githubusercontent.com/Parokor/control-agency/main/scripts/colab_keeper.py
    %run colab_keeper.py
    ```
 
@@ -502,7 +502,7 @@ For maximum performance on Kaggle:
 3. Run the GPU optimization script:
    ```python
    # In your Kaggle notebook
-   !wget -q https://raw.githubusercontent.com/yourusername/federated-ai-system/main/scripts/kaggle_optimize.py
+   !wget -q https://raw.githubusercontent.com/Parokor/control-agency/main/scripts/kaggle_optimize.py
    %run kaggle_optimize.py
    ```
 4. Use the Kaggle API for automation:

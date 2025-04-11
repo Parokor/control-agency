@@ -986,8 +986,8 @@ Key features include:
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/yourusername/federated-ai-system.git
-   cd federated-ai-system
+   git clone https://github.com/Parokor/control-agency.git
+   cd control-agency
    ```
 
 2. **Install Dependencies**
