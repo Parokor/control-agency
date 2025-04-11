@@ -77,9 +77,12 @@ mkdir -p scripts
 
 El backend es el núcleo del sistema Control Agency, gestionando la orquestación de recursos y la comunicación entre componentes.
 
-### Paso 1: Configurar el Entorno Virtual de Python
+### Paso 1: Crear y Configurar el Directorio del Backend
 
 ```bash
+# Crear el directorio del backend si no existe
+mkdir -p backend
+
 # Navegar al directorio del backend
 cd backend
 
@@ -117,6 +120,9 @@ pip install -r requirements.txt
 ### Paso 3: Crear la Aplicación FastAPI Básica
 
 ```bash
+# Crear el directorio app si no existe
+mkdir -p app
+
 # Crear el archivo principal de la aplicación
 cat > app/main.py << EOL
 from fastapi import FastAPI, HTTPException
@@ -213,8 +219,11 @@ cd backend
 ### Paso 5: Crear Script de Inicialización de Base de Datos
 
 ```bash
-# Navega al directorio scripts
-cd ../scripts
+# Crear el directorio scripts si no existe
+mkdir -p scripts
+
+# Navegar al directorio scripts
+cd ../../scripts
 
 # Crear script de inicialización
 cat > init_database.py << EOL
@@ -226,17 +235,17 @@ from supabase import create_client
 def init_database(url, key):
     # Crear cliente de Supabase
     supabase = create_client(url, key)
-    
+
     # Crear tablas necesarias
     print("Creando tablas en Supabase...")
-    
+
     # Tabla de usuarios
     supabase.table("users").create({
         "id": "uuid references auth.users(id)",
         "email": "text",
         "created_at": "timestamp with time zone default now()"
     })
-    
+
     # Tabla de proyectos
     supabase.table("projects").create({
         "id": "uuid default uuid_generate_v4() primary key",
@@ -245,7 +254,7 @@ def init_database(url, key):
         "user_id": "uuid references users(id)",
         "created_at": "timestamp with time zone default now()"
     })
-    
+
     # Tabla de recursos
     supabase.table("resources").create({
         "id": "uuid default uuid_generate_v4() primary key",
@@ -254,14 +263,14 @@ def init_database(url, key):
         "project_id": "uuid references projects(id)",
         "created_at": "timestamp with time zone default now()"
     })
-    
+
     print("Inicialización de la base de datos completada.")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Inicializar base de datos de Control Agency")
     parser.add_argument("--url", required=True, help="URL de Supabase")
     parser.add_argument("--key", required=True, help="Clave API de Supabase")
-    
+
     args = parser.parse_args()
     init_database(args.url, args.key)
 EOL
@@ -277,8 +286,11 @@ Control Agency utiliza tres contenedores especializados para diferentes funciona
 ### Paso 1: Configurar el Contenedor de Chat
 
 ```bash
+# Crear el directorio para los contenedores si no existe
+mkdir -p containers/chat_container
+
 # Navegar al directorio del contenedor de chat
-cd ../containers/chat_container
+cd containers/chat_container
 
 # Crear Dockerfile
 cat > Dockerfile << EOL
@@ -351,8 +363,11 @@ EOL
 ### Paso 2: Configurar el Contenedor de Desarrollo
 
 ```bash
+# Crear el directorio para el contenedor de desarrollo si no existe
+mkdir -p containers/dev_container
+
 # Navegar al directorio del contenedor de desarrollo
-cd ../dev_container
+cd ../../containers/dev_container
 
 # Crear Dockerfile
 cat > Dockerfile << EOL
@@ -419,10 +434,10 @@ async def create_repo(request: RepoRequest):
     try:
         name = request.name or request.url.split("/")[-1].replace(".git", "")
         path = f"/app/repositories/{name}"
-        
+
         # Clonar repositorio
         git.Repo.clone_from(request.url, path)
-        
+
         return {"name": name, "path": path}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -432,6 +447,9 @@ EOL
 ### Paso 3: Configurar el Contenedor de Medios
 
 ```bash
+# Crear el directorio para el contenedor de medios si no existe
+mkdir -p containers/media_container
+
 # Navegar al directorio del contenedor de medios
 cd ../media_container
 
