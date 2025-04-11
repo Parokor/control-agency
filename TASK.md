@@ -1,5 +1,15 @@
 # Task Tracking
 
+## Deployment Documentation Update - [Date: 2024-07-11]
+
+- [x] Created detailed deployment guide (DEPLOYMENT.md)
+- [x] Added step-by-step instructions for frontend deployment
+- [x] Added step-by-step instructions for backend deployment
+- [x] Added database setup instructions
+- [x] Added container deployment instructions
+- [x] Added troubleshooting section
+- [x] Updated README.md to reference the new deployment guide
+
 ## Repository URL Standardization - [Date: 2024-07-11]
 
 - [x] Updated all documentation files to use the correct GitHub repository URL
