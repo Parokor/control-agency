@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Control Agency - Home{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 text-center">
+        <h1 class="display-4">Welcome to Control Agency</h1>
+        <p class="lead">A cloud-based distributed execution system for AI workloads</p>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <i class="bi bi-cloud-check fs-1 text-primary"></i>
+                <h5 class="card-title mt-3">Cloud Integration</h5>
+                <p class="card-text">Seamlessly integrate with multiple cloud platforms like Google Colab, Paperspace Gradient, and RunPod.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <i class="bi bi-distribute-vertical fs-1 text-success"></i>
+                <h5 class="card-title mt-3">Distributed Execution</h5>
+                <p class="card-text">Execute tasks across multiple platforms with intelligent resource allocation and load balancing.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <i class="bi bi-graph-up-arrow fs-1 text-danger"></i>
+                <h5 class="card-title mt-3">Performance Prediction</h5>
+                <p class="card-text">Predict execution times for tasks across different platforms to optimize resource allocation.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-12 text-center">
+        <h2>Getting Started</h2>
+        <p>To get started with Control Agency, follow these steps:</p>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-6 offset-md-3">
+        <div class="list-group">
+            <a href="/auth/login" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">1. Login to your account</h5>
+                    <small><i class="bi bi-arrow-right"></i></small>
+                </div>
+                <p class="mb-1">Access your Control Agency dashboard to manage resources and tasks.</p>
+            </a>
+            <a href="/platforms" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">2. Configure cloud platforms</h5>
+                    <small><i class="bi bi-arrow-right"></i></small>
+                </div>
+                <p class="mb-1">Add your cloud platform tokens to enable integration with Google Colab, Paperspace Gradient, and RunPod.</p>
+            </a>
+            <a href="/tasks/create" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">3. Create and submit tasks</h5>
+                    <small><i class="bi bi-arrow-right"></i></small>
+                </div>
+                <p class="mb-1">Create and submit tasks to be executed across multiple cloud platforms.</p>
+            </a>
+            <a href="/dashboard" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">4. Monitor task execution</h5>
+                    <small><i class="bi bi-arrow-right"></i></small>
+                </div>
+                <p class="mb-1">Monitor the execution of your tasks and view results in real-time.</p>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

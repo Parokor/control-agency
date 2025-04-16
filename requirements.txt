@@ -1,0 +1,29 @@
+# Requisitos para Control Agency
+
+# Dependencias básicas
+requests>=2.25.0
+pyyaml>=5.4.0
+cryptography>=3.4.0
+
+# Dependencias para la autenticación
+PyJWT>=2.0.0
+
+# Dependencias para la gestión de recursos en la nube
+numpy>=1.19.0
+pandas>=1.2.0
+
+# Dependencias para la interfaz web
+fastapi>=0.68.0
+uvicorn>=0.15.0
+jinja2>=3.0.0
+aiofiles>=0.7.0
+
+# Dependencias para la integración con GitHub
+PyGithub>=1.55.0
+
+# Dependencias para la integración con Podman
+podman-py>=0.0.1
+
+# Dependencias para pruebas
+pytest>=6.2.0
+pytest-cov>=2.12.0

@@ -1,0 +1,261 @@
+{% extends "base.html" %}
+
+{% block title %}Control Agency - Dashboard{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1>Dashboard</h1>
+        <p>Welcome to the Control Agency dashboard. Here you can monitor the status of the resource scheduler and your tasks.</p>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Resource Scheduler Status</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Status:</strong> <span class="badge {% if scheduler_status.running %}bg-success{% else %}bg-danger{% endif %}">{% if scheduler_status.running %}Running{% else %}Stopped{% endif %}</span></p>
+                <p><strong>Max Concurrent Tasks:</strong> {{ scheduler_status.max_concurrent_tasks }}</p>
+                <p><strong>Pending Tasks:</strong> {{ scheduler_status.pending_tasks }}</p>
+                <p><strong>Total Tasks:</strong> {{ scheduler_status.total_tasks }}</p>
+                <p><strong>Platforms:</strong> {{ scheduler_status.platforms|join(', ') }}</p>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    {% if scheduler_status.running %}
+                    <button class="btn btn-danger" id="stop-scheduler">Stop Scheduler</button>
+                    {% else %}
+                    <button class="btn btn-success" id="start-scheduler">Start Scheduler</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Task Statistics</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="task-chart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Platform Status</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Platform</th>
+                                <th>Status</th>
+                                <th>Instances</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for platform, status in platforms_status.items() %}
+                            <tr>
+                                <td>{{ platform }}</td>
+                                <td>
+                                    <span class="badge {% if status.status == 'OK' %}bg-success{% else %}bg-danger{% endif %}">
+                                        {{ status.status }}
+                                    </span>
+                                </td>
+                                <td>{{ status.instances|length }}</td>
+                                <td>
+                                    <a href="/platforms/status/{{ platform }}" class="btn btn-sm btn-info">Details</a>
+                                    <a href="/platforms?platform={{ platform }}" class="btn btn-sm btn-primary">Manage</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Recent Tasks</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Status</th>
+                                <th>Platform</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for task in tasks[:10] %}
+                            <tr>
+                                <td>{{ task.task_id }}</td>
+                                <td>
+                                    <span class="badge 
+                                        {% if task.status.name == 'PENDING' %}bg-warning
+                                        {% elif task.status.name == 'RUNNING' %}bg-primary
+                                        {% elif task.status.name == 'COMPLETED' %}bg-success
+                                        {% elif task.status.name == 'FAILED' %}bg-danger
+                                        {% elif task.status.name == 'CANCELLED' %}bg-secondary
+                                        {% endif %}">
+                                        {{ task.status.name }}
+                                    </span>
+                                </td>
+                                <td>{{ task.platform or 'N/A' }}</td>
+                                <td>{{ task.start_time|default('N/A', true) }}</td>
+                                <td>{{ task.end_time|default('N/A', true) }}</td>
+                                <td>
+                                    <a href="/tasks/{{ task.task_id }}" class="btn btn-sm btn-info">Details</a>
+                                    {% if task.status.name == 'PENDING' or task.status.name == 'RUNNING' %}
+                                    <button class="btn btn-sm btn-danger cancel-task" data-task-id="{{ task.task_id }}">Cancel</button>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a href="/tasks" class="btn btn-primary">View All Tasks</a>
+                    <a href="/tasks/create" class="btn btn-success">Create New Task</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Task chart
+        const ctx = document.getElementById('task-chart').getContext('2d');
+        const taskChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Pending', 'Running', 'Completed', 'Failed', 'Cancelled'],
+                datasets: [{
+                    data: [
+                        {{ task_counts.pending }},
+                        {{ task_counts.running }},
+                        {{ task_counts.completed }},
+                        {{ task_counts.failed }},
+                        {{ task_counts.cancelled }}
+                    ],
+                    backgroundColor: [
+                        '#ffc107', // warning
+                        '#0d6efd', // primary
+                        '#198754', // success
+                        '#dc3545', // danger
+                        '#6c757d'  // secondary
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // Start scheduler
+        const startSchedulerBtn = document.getElementById('start-scheduler');
+        if (startSchedulerBtn) {
+            startSchedulerBtn.addEventListener('click', function() {
+                fetch('/dashboard/start', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        window.location.reload();
+                    } else {
+                        alert('Failed to start scheduler: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while starting the scheduler');
+                });
+            });
+        }
+
+        // Stop scheduler
+        const stopSchedulerBtn = document.getElementById('stop-scheduler');
+        if (stopSchedulerBtn) {
+            stopSchedulerBtn.addEventListener('click', function() {
+                fetch('/dashboard/stop', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        window.location.reload();
+                    } else {
+                        alert('Failed to stop scheduler: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while stopping the scheduler');
+                });
+            });
+        }
+
+        // Cancel task
+        const cancelTaskBtns = document.querySelectorAll('.cancel-task');
+        cancelTaskBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const taskId = this.getAttribute('data-task-id');
+                if (confirm('Are you sure you want to cancel task ' + taskId + '?')) {
+                    fetch('/tasks/' + taskId, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            window.location.reload();
+                        } else {
+                            alert('Failed to cancel task: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while cancelling the task');
+                    });
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
